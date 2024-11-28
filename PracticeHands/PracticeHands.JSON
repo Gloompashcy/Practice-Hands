@@ -3,7 +3,10 @@
 	"name": "Practice Hands",
 	"display_name": "Practice Hands",
 	"author": [ "Gloompashcy" ],
-	"description": "Adds Various different types of new poker hands in order to practice coding them",
+	"description": [
+			"Adds Various different types of new poker hands in order to practice coding them.",
+			"They usually are based on a mechanic from the base game."
+		],
 	"prefix": "PracHands",
 	"main_file": "PracticeHands.lua",
 	"priority": 0,
