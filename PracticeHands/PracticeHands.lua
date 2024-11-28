@@ -14,14 +14,14 @@ SMODS.Joker:take_ownership('j_four_fingers', {
 		loc_txt = {
 			name = "Four Fingers",
 			text = {
-				"All {C:attention}Flushes{},",
-				"{C:attention}Straights{} and {C:attention}Mingles{} can",
+				"All {C:attention}Flushes{}, {C:attention}Straights{}",
+				"and {C:attention}Mingles{} can",
 				"be made with {C:attention}4{} cards,",
 				"also allows {C:attention}new hand types{}",
 				"to be played",
 			},
 		},
-})
+}, true)
 
 --New hand part for mingle
 SMODS.PokerHandPart {
@@ -57,7 +57,7 @@ SMODS.PokerHandPart {
 				for k, v in pairs(USuits) do
 					if hand[i]:is_suit(k, nil, true) and v == 0 then
 						table.insert(Scards, hand[i])
-						USuits[k] = 1
+						USuits[k] = v + 1
 						break
 					end
 				end
@@ -69,7 +69,7 @@ SMODS.PokerHandPart {
 					if hand[i]:is_suit(k, nil, true) and v == 0 then
 						table.insert(Scards, hand[i])
 						used_wilds[#used_wilds + 1] = hand[i]
-						USuits[k] = 1
+						USuits[k] = v + 1
 						break
 					end
 				end
@@ -90,7 +90,7 @@ SMODS.PokerHandPart {
 		end
 		local Nsuit = 0
 		for _, v in pairs(USuits) do
-			if v == 1 then
+			if v >= 1 then
 				Nsuit = Nsuit + 1
 			end
 		end
