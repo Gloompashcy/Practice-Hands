@@ -1,5 +1,5 @@
 # Practice-Hands
-A Balatro mod that adds various new hand types, typically focusing on base game jokers or enhancements
+A Balatro mod that adds various new hand types, they typically use base game jokers or enhancements
 
 This mod requires the [latest steamodded alpha version](https://github.com/Steamopollys/Steamodded)
 
