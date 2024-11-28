@@ -15,6 +15,6 @@ These are currently the only hands fully implemented.
 
 ## Flush Four
 This hand can only be played when you have to "Four Fingers" joker.
-It is not currently fully implemented, though its planet is.
+It is not completely implemented, though its planet is.
 
 ## More Hands to be Added in the Future
