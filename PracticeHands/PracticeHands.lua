@@ -57,7 +57,7 @@ SMODS.PokerHandPart {
 				for k, v in pairs(USuits) do
 					if hand[i]:is_suit(k, nil, true) and v == 0 then
 						table.insert(Scards, hand[i])
-						USuits[k] = v + 1
+						USuits[k] = 1
 						break
 					end
 				end
@@ -69,7 +69,7 @@ SMODS.PokerHandPart {
 					if hand[i]:is_suit(k, nil, true) and v == 0 then
 						table.insert(Scards, hand[i])
 						used_wilds[#used_wilds + 1] = hand[i]
-						USuits[k] = v + 1
+						USuits[k] = 1
 						break
 					end
 				end
