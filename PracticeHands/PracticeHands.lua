@@ -35,15 +35,10 @@ SMODS.PokerHandPart {
 		USuits['Hearts'] = 0
 		USuits['Clubs'] = 0
 		USuits['Diamonds'] = 0
-		if #hand < 5 then
-			if next(find_joker('Four Fingers')) then
-				if #hand < 4 then
-					return {}
-				else 
-					FourFing = true
-				end
-			else return {} end
-		end
+		if next(find_joker('Four Fingers')) then
+			FourFing = true
+			if #hand < 4 then return {} end
+		elseif #hand < 5 then return {} end
 		local wilds = 0
 		for i = 1, #hand do
 			if hand[i].ability.name == 'Wild Card' then
