@@ -90,7 +90,7 @@ SMODS.PokerHandPart {
 		end
 		local Nsuit = 0
 		for _, v in pairs(USuits) do
-			if v >= 1 then
+			if v == 1 then
 				Nsuit = Nsuit + 1
 			end
 		end
