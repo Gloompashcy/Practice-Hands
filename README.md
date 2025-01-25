@@ -5,7 +5,7 @@ This mod requires the [latest steamodded alpha version](https://github.com/Steam
 
 # Current Progress
 Currently, 8 hands and 8 planets have been added.
-Future 0.x.0 releases will include bathes of 4 to 8 hands, in sets of 2 to 6 unique types.
+Future content releases will include batches of roughly 8 hands, in sets of 2 to 6 unique types.
 
 # Added Hands
 ## Mingles
@@ -24,3 +24,5 @@ It can only played when you have Shortcut.
 ## Jackpot
 This hand is a flush five made entirely from sevens that have the lucky card enhancement.
 It scores 777 x 77 but can't increase chips and mult through level ups
+
+## More Hands to be Added
