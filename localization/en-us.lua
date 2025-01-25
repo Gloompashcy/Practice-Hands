@@ -99,7 +99,7 @@ return {
 		    },
             PracHands_Jackpot = {
                 "Five cards, all of which",
-                "are {C:attention}Lucky{} Sevens",
+                "are Lucky Sevens",
             },
             PracHands_Express = {
                 "5 cards of ascending ranks that",
