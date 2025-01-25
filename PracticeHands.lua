@@ -9,23 +9,22 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
+--First Set
+
 --Changes to base game items and text
-SMODS.Joker:take_ownership('j_four_fingers', {
-		loc_txt = {
-			name = "Four Fingers",
-			text = {
-				"All {C:attention}Flushes{},",
-				"{C:attention}Straights{} and {C:attention}Mingles{}",
-				"can be made with {C:attention}4{} cards",
-			},
-		},
-}, true)
+SMODS.Joker:take_ownership('j_four_fingers', { loc_txt = {
+	name = "Four Fingers",
+	text = {
+		"All {C:attention}Flushes{},",
+		"{C:attention}Straights{} and {C:attention}Mingles{}",
+		"can be made with {C:attention}4{} cards",
+	},
+}}, true)
 
 --Atlases for Example cards
-SMODS.Atlas{ key = 'IMGExCardshc', path = 'ExampleCards_lc.png', px = 71, py = 95 }
+SMODS.Atlas{ key = 'IMGExCardshc', path = 'ExampleCards_hc.png', px = 71, py = 95 }
 SMODS.Atlas{ key = 'IMGExCardslc', path = 'ExampleCards_lc.png', px = 71, py = 95 }
-SMODS.Atlas{ key = 'IMGExCardsUIhc', path = 'EXUIhc.png', px = 1, py = 1 }
-SMODS.Atlas{ key = 'IMGExCardsUIlc', path = 'EXUIlc.png', px = 1, py = 1 }
+SMODS.Atlas{ key = 'IMGExCardsUI', path = 'ExampleCards_lc.png', px = 1, py = 1 }
 
 -- Cards for hand examples
 
@@ -37,19 +36,14 @@ SMODS.Suit {
 	hc_atlas = 'IMGExCardshc',
 	lc_atlas = 'IMGExCardslc',
 
-	hc_ui_atlas = 'IMGExCardsUIhc',
-	lc_ui_atlas = 'IMGExCardsUIlc',
+	hc_ui_atlas = 'IMGExCardsUI',
+	lc_ui_atlas = 'IMGExCardsUI',
 
 	pos = { y = 0 },
 	ui_pos = { x = 0, y = 0 },
 
 	hc_colour = HEX('000000'),
 	lc_colour = HEX('000000'),
-
-	loc_text = {
-		singular = 'singular',
-		plural = 'plural',
-	},
 
 	in_pool = function(self, args)
         return false end
@@ -144,9 +138,193 @@ SMODS.PokerHandPart {
 	end
 }
 
+--Jackpot Hand Part
+SMODS.PokerHandPart{
+	key = 'PRTJackpot',
+	func = function(hand)
+		local sevcheck = 0
+		local luckcheck = 0
+		for i = 1, #hand do
+			local sevrank = SMODS.Ranks[hand[i].base.value]
+			if sevrank.key == '7' then
+				sevcheck = sevcheck + 1
+			end
+			if hand[i].ability.name == 'Lucky Card' then
+				luckcheck = luckcheck + 1
+			end
+		end
+		if sevcheck >= 5 and luckcheck >= 5 then
+			return { SMODS.merge_lists( hand ) }
+		end
+	end
+}
+
+--Express Straight Part
+SMODS.PokerHandPart {
+	key = 'PRTExpress',
+	func = function(hand)
+		local usedranks = {}
+		for i = 1, 13 do
+			usedranks[i] = 0 end
+		local confirmedranks = 0
+		local COMPrank = nil
+		local STRrank = nil
+		for i = 1, #hand do
+			STRrank = SMODS.Ranks[hand[i].base.value]
+			if STRrank.key == '2' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '3' or COMPrank.key == 'Ace' then
+						return {}
+					elseif COMPrank.key == '4' or COMPrank.key == 'King' then
+						if usedranks[2] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[2] = 1 end
+					end
+				end
+			elseif STRrank.key == '3' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '4' or COMPrank.key == '2' then
+						return {}
+					elseif COMPrank.key == '5' or COMPrank.key == 'Ace' then
+						if usedranks[3] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[3] = 1 end
+					end
+				end
+			elseif STRrank.key == '4' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '5' or COMPrank.key == '3' then
+						return {}
+					elseif COMPrank.key == '6' or COMPrank.key == '2' then
+						if usedranks[4] <= 0 then
+							confirmedranks = confirmedranks + 1 
+							usedranks[4] = 1 end
+					end
+				end
+			elseif STRrank.key == '5' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '6' or COMPrank.key == '4' then
+						return {}
+					elseif COMPrank.key == '7' or COMPrank.key == '3' then
+						if usedranks[5] <= 0 then
+							confirmedranks = confirmedranks + 1 
+							usedranks[5] = 1 end
+					end
+				end
+			elseif STRrank.key == '6' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '7' or COMPrank.key == '5' then
+						return {}
+					elseif COMPrank.key == '8' or COMPrank.key == '4' then
+						if usedranks[6] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[6] = 1 end
+					end
+				end
+			elseif STRrank.key == '7' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '8' or COMPrank.key == '6' then
+						return {}
+					elseif COMPrank.key == '9' or COMPrank.key == '5' then
+						if usedranks[7] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[7] = 1 end
+					end
+				end
+			elseif STRrank.key == '8' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '9' or COMPrank.key == '7' then
+						return {}
+					elseif COMPrank.key == '10' or COMPrank.key == '6' then
+						if usedranks[8] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[8] = 1 end
+					end
+				end
+			elseif STRrank.key == '9' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '10' or COMPrank.key == '8' then
+						return {}
+					elseif COMPrank.key == 'Jack' or COMPrank.key == '7' then
+						if usedranks[9] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[9] = 1 end
+					end
+				end
+			elseif STRrank.key == '10' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == 'Jack' or COMPrank.key == '9' then
+						return {}
+					elseif COMPrank.key == 'Queen' or COMPrank.key == '8' then
+						if usedranks[10] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[10] = 1 end
+					end
+				end
+			elseif STRrank.key == 'Jack' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == 'Queen' or COMPrank.key == '10' then
+						return {}
+					elseif COMPrank.key == 'King' or COMPrank.key == '9' then
+						if usedranks[11] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[11] = 1 end
+					end
+				end
+			elseif STRrank.key == 'Queen' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == 'King' or COMPrank.key == 'Jack' then
+						return {}
+					elseif COMPrank.key == 'Ace' or COMPrank.key == '10' then
+						if usedranks[12] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[12] = 1 end
+					end
+				end
+			elseif STRrank.key == 'King' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == 'Ace' or COMPrank.key == 'Queen' then
+						return {}
+					elseif COMPrank.key == '2' or COMPrank.key == 'Jack' then
+						if usedranks[13] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[13] = 1 end
+					end
+				end
+			elseif STRrank.key == 'Ace' then
+				for j = 1, #hand do
+					COMPrank = SMODS.Ranks[hand[j].base.value]
+					if COMPrank.key == '2' or COMPrank.key == 'King' then
+						return {}
+					elseif COMPrank.key == '3' or COMPrank.key == 'Queen' then
+						if usedranks[1] <= 0 then
+							confirmedranks = confirmedranks + 1
+							usedranks[1] = 1 end
+					end
+				end
+			end
+		end
+		if confirmedranks >= 5 or (next(find_joker('Four Fingers')) and confirmedranks >= 4) then
+			return { hand }
+		else return {} end
+	end
+}
+
 --Flush Four hand
 SMODS.PokerHand {
-	key = 'Flush Four',
+	key = 'FlushFour',
 	chips = 100,
 	mult = 10,
 	l_chips = 10,
@@ -159,13 +337,6 @@ SMODS.PokerHand {
 		{ 'S_J', true },
 		{ 'S_J', true },
 		{ 'S_3', false },
-	},
-	loc_txt = {
-		name = "Flush Four",
-		description = {
-			"4 cards with the same rank and suit",
-			'(Requires the "Four Fingers" joker)'
-		}
 	},
 	evaluate = function(parts, hand)
 		if next(find_joker('Four Fingers')) and next(parts._4) and next(parts._flush) then
@@ -184,7 +355,7 @@ SMODS.PokerHand {
 				return { _FLfour }
 			else return {} end
 		else return {} end
-	end,
+	end
 }
 
 --Mingle hands
@@ -202,13 +373,6 @@ SMODS.PokerHand {
 		{ 'H_3', true },
 		{ 'D_9', true },
 		{ 'PracHands_EX_5', true },
-	},
-	loc_txt = {
-		name = "Mingle",
-		description = {
-			"5 cards with 1 from each suit",
-			"and 1 wild card"
-		}
 	},
 	evaluate = function(parts, hand)
 		if next(parts.PracHands_PRTMingle) then
@@ -231,17 +395,18 @@ SMODS.PokerHand {
 		{ 'S_7', true },
 		{ 'C_6', true },
 	},
-	loc_txt = {
-		name = "Straight Mingle",
-		description = {
-			"5 cards in a row (consecutive ranks) with",
-			"1 from each suit and 1 wild card"
-		}
-	},
 	evaluate = function(parts, hand)
 		if next(parts.PracHands_PRTMingle) and next(parts._straight) then
 			return { SMODS.merge_lists(parts.PracHands_PRTMingle, parts._straight) }
 		end
+	end,
+	modify_display_text = function(self, scoring_hand)
+		local royal = true
+		for j = 1, #scoring_hand do
+			local rank = SMODS.Ranks[scoring_hand[j].base.value]
+			royal = royal and (rank.key == 'Ace' or rank.key == '10' or rank.face)
+		end
+		if royal then return self.key..'_Royal' end
 	end
 }
 
@@ -258,13 +423,6 @@ SMODS.PokerHand {
 		{ 'H_5', true },
 		{ 'D_5', true },
 		{ 'PracHands_EX_5', true },
-	},
-	loc_txt = {
-		name = "Mingle House",
-		description = {
-			"A pair and a three of a kind with",
-			"1 card from each suit and 1 wild card"
-		}
 	},
 	evaluate = function(parts, hand)
 		if next(parts._3) and #parts._2 >= 2 and next(parts.PracHands_PRTMingle) then
@@ -286,13 +444,6 @@ SMODS.PokerHand {
 		{ 'C_A', true },
 		{ 'H_A', true },
 	},
-	loc_txt = {
-		name = "Mingle Five",
-		description = {
-			"5 cards of the same rank with",
-			"1 from each suit and 1 wild card"
-		}
-	},
 	evaluate = function(parts, hand)
 		if next(parts.PracHands_PRTMingle) and next(parts._5) then
 			return { hand }
@@ -300,34 +451,87 @@ SMODS.PokerHand {
 	end
 }
 
+--Jackpot Hand
+SMODS.PokerHand {
+	key = 'Jackpot',
+	chips = 777,
+	mult = 77,
+	l_chips = 0,
+	l_mult = 0,
+	visible = false,
+	example = {
+		{ 'PracHands_EX_7', true },
+		{ 'PracHands_EX_7', true },
+		{ 'PracHands_EX_7', true },
+		{ 'PracHands_EX_7', true },
+		{ 'PracHands_EX_7', true },
+	},
+	evaluate = function(parts, hand)
+		if next(parts.PracHands_PRTJackpot) and next(parts._5) and next(parts._flush) then
+			return { SMODS.merge_lists(parts._5, parts._flush) }
+		end
+	end
+}
+
+--Express Straight Hands
+SMODS.PokerHand {
+	key = 'Express',
+	chips = 45,
+	mult = 6,
+	l_chips = 35,
+	l_mult = 3,
+	visible = false,
+	example = {
+		{ 'C_A', true },
+		{ 'S_Q', true },
+		{ 'C_T', true },
+		{ 'H_8', true },
+		{ 'C_6', true },
+	},
+	evaluate = function(parts, hand)
+		if next(parts._straight) and next(parts.PracHands_PRTExpress) and next(find_joker('Shortcut')) then
+			return { SMODS.merge_lists(parts._straight) }
+		end
+	end
+}
+
+SMODS.PokerHand {
+	key = 'FLExpress',
+	chips = 120,
+	mult = 10,
+	l_chips = 55,
+	l_mult = 6,
+	visible = false,
+	example = {
+		{ 'S_J', true },
+		{ 'S_9', true },
+		{ 'S_7', true },
+		{ 'S_5', true },
+		{ 'S_3', true },
+	},
+	evaluate = function(parts, hand)
+		if next(parts._straight) and next(parts._flush) and next(parts.PracHands_PRTExpress) and next(find_joker('Shortcut')) then
+			return { SMODS.merge_lists(parts._straight, parts._flush) }
+		end
+	end
+}
+
 --Consumable atlases (merge into one when first hand batch completed)
-SMODS.Atlas { key = 'IMGPhobos', path = 'phobos.png', px = 71, py = 95 }
-SMODS.Atlas { key = 'IMGOrcus', path = 'orcus.png', px = 71, py = 95 }
-SMODS.Atlas { key = 'IMGHaumea', path = 'haumea.png', px = 71, py = 95 }
-SMODS.Atlas { key = 'IMGMakemake', path = 'makemake.png', px = 71, py = 95 }
-SMODS.Atlas { key = 'IMGPallas', path = 'pallas.png', px = 71, py = 95 }
+SMODS.Atlas { key = 'IMGPlanets1', path = 'planetsset1.png', px = 65, py = 95 }
 
 --New planet cards
 SMODS.Consumable {
     set = 'Planet',
     key = 'P_phobos',
-    config = { hand_type = 'PracHands_Flush Four', softlock = true },
+    config = { hand_type = 'PracHands_FlushFour', softlock = true },
     pos = {x = 0, y = 0 },
-    atlas = 'IMGPhobos',
+    atlas = 'IMGPlanets1',
 	unlocked = true,
 	discovered = false,
     set_card_type_badge = function(self, card, badges)
         badges[1] = create_badge("Moon", get_type_colour(self or card.config, card), nil, 1.2)
     end,
-    process_loc_text = function(self)
-        local target_text = G.localization.descriptions[self.set]['c_mars'].text
-        SMODS.Consumable.process_loc_text(self)
-        G.localization.descriptions[self.set][self.key].text = target_text
-    end,
     generate_ui = 0,
-    loc_txt = {
-            name = "Phobos"
-    }
 }
 
 
@@ -335,86 +539,100 @@ SMODS.Consumable {
     set = 'Planet',
     key = 'P_orcus',
     config = { hand_type = 'PracHands_Mingle', softlock = true },
-    pos = {x = 0, y = 0 },
-    atlas = 'IMGOrcus',
+    pos = {x = 1, y = 0 },
+    atlas = 'IMGPlanets1',
 	unlocked = true,
 	discovered = false,
     set_card_type_badge = function(self, card, badges)
         badges[1] = create_badge("Dwarf Planet?", get_type_colour(self or card.config, card), nil, 1.2)
     end,
-    process_loc_text = function(self)
-        local target_text = G.localization.descriptions[self.set]['c_jupiter'].text
-        SMODS.Consumable.process_loc_text(self)
-        G.localization.descriptions[self.set][self.key].text = target_text
-    end,
     generate_ui = 0,
-    loc_txt = {
-            name = "Orcus"
-    }
 }
 
 SMODS.Consumable {
     set = 'Planet',
     key = 'P_haumea',
     config = { hand_type = 'PracHands_STRMingle', softlock = true },
-    pos = {x = 0, y = 0 },
-    atlas = 'IMGHaumea',
+    pos = {x = 2, y = 0 },
+    atlas = 'IMGPlanets1',
 	unlocked = true,
 	discovered = false,
     set_card_type_badge = function(self, card, badges)
         badges[1] = create_badge("Dwarf Planet", get_type_colour(self or card.config, card), nil, 1.2)
     end,
-    process_loc_text = function(self)
-        local target_text = G.localization.descriptions[self.set]['c_neptune'].text
-        SMODS.Consumable.process_loc_text(self)
-        G.localization.descriptions[self.set][self.key].text = target_text
-    end,
     generate_ui = 0,
-    loc_txt = {
-            name = "Haumea"
-    }
 }
 
 SMODS.Consumable {
     set = 'Planet',
     key = 'P_makemake',
     config = { hand_type = 'PracHands_VMingle', softlock = true },
-    pos = {x = 0, y = 0 },
-    atlas = 'IMGMakemake',
+    pos = {x = 3, y = 0 },
+    atlas = 'IMGPlanets1',
 	unlocked = true,
 	discovered = false,
     set_card_type_badge = function(self, card, badges)
         badges[1] = create_badge("Dwarf Planet", get_type_colour(self or card.config, card), nil, 1.2)
     end,
-    process_loc_text = function(self)
-        local target_text = G.localization.descriptions[self.set]['c_eris'].text
-        SMODS.Consumable.process_loc_text(self)
-        G.localization.descriptions[self.set][self.key].text = target_text
-    end,
     generate_ui = 0,
-    loc_txt = {
-            name = "Makemake"
-    }
 }
 
 SMODS.Consumable {
     set = 'Planet',
     key = 'P_pallas',
     config = { hand_type = 'PracHands_HouseMingle', softlock = true },
-    pos = {x = 0, y = 0 },
-    atlas = 'IMGPallas',
+    pos = {x = 0, y = 1 },
+    atlas = 'IMGPlanets1',
 	unlocked = true,
 	discovered = false,
     set_card_type_badge = function(self, card, badges)
         badges[1] = create_badge("Asteriod", get_type_colour(self or card.config, card), nil, 1.2)
     end,
-    process_loc_text = function(self)
-        local target_text = G.localization.descriptions[self.set]['c_ceres'].text
-        SMODS.Consumable.process_loc_text(self)
-        G.localization.descriptions[self.set][self.key].text = target_text
+    generate_ui = 0,
+}
+
+SMODS.Consumable {
+    set = 'Planet',
+    key = 'P_titan',
+    config = { hand_type = 'PracHands_Express', softlock = true },
+    pos = {x = 1, y = 1 },
+    atlas = 'IMGPlanets1',
+	unlocked = true,
+	discovered = false,
+    set_card_type_badge = function(self, card, badges)
+        badges[1] = create_badge("Moon", get_type_colour(self or card.config, card), nil, 1.2)
     end,
     generate_ui = 0,
-    loc_txt = {
-            name = "Pallas"
-    }
 }
+SMODS.Consumable {
+    set = 'Planet',
+    key = 'P_rhea',
+    config = { hand_type = 'PracHands_FLExpress', softlock = true },
+    pos = {x = 2, y = 1 },
+    atlas = 'IMGPlanets1',
+	unlocked = true,
+	discovered = false,
+    set_card_type_badge = function(self, card, badges)
+        badges[1] = create_badge("Moon", get_type_colour(self or card.config, card), nil, 1.2)
+    end,
+    generate_ui = 0,
+}
+SMODS.Consumable {
+    set = 'Planet',
+    key = 'P_slotmachine',
+    config = { hand_type = 'PracHands_Jackpot', softlock = true },
+    pos = {x = 3, y = 1 },
+    atlas = 'IMGPlanets1',
+	unlocked = true,
+	discovered = false,
+    set_card_type_badge = function(self, card, badges)
+        badges[1] = create_badge("Your World", get_type_colour(self or card.config, card), nil, 1.2)
+    end,
+    generate_ui = 0,
+}
+
+
+
+
+
+--Second Set

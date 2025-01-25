@@ -4,8 +4,8 @@ A Balatro mod that adds various new hand types, they typically use vanilla joker
 This mod requires the [latest steamodded alpha version](https://github.com/Steamopollys/Steamodded)
 
 # Current Progress
-Currently, 5 hands and 5 planets have been added.
-The next major release will increase this number to 8, following major releases will include bathes of 4 to 8 hands.
+Currently, 8 hands and 8 planets have been added.
+Future 0.x.0 releases will include bathes of 4 to 8 hands, in sets of 2 to 6 unique types.
 
 # Added Hands
 ## Mingles
@@ -16,4 +16,11 @@ They can be combined with a five of a kind, full house or straight to create a d
 ## Flush Four
 This hand is an altered version of Flush Five with just four cards, it can only be played when you have Four Fingers.
 
-## More Hands to be Added
+## Express Straights
+This hand is a straight that has a gap between the rank of each played cards (eg. 5, 7, 9, Jack, King).
+It can be combined with a flush to create a different hand.
+It can only played when you have Shortcut.
+
+## Jackpot
+This hand is a flush five made entirely from sevens that have the lucky card enhancement.
+It scores 777 x 77 but can't increase chips and mult through level ups
