@@ -1,0 +1,19 @@
+{
+	"id": "PracticeHandsMod",
+	"name": "Practice Hands",
+	"display_name": "Practice Hands",
+	"author": [ "Gloompashcy" ],
+	"description": "Adds Various different types of new poker hands in order to practice coding them. They usually are based on a mechanic from the base game.",
+	"prefix": "PracHands",
+	"main_file": "PracticeHands.lua",
+	"priority": 0,
+	"badge_colour": "0092FF",
+	"badge_text_colour": "",
+	"version": "0.0.1",
+	"dependencies": [
+		{
+			"id": "Steamodded",
+			"min_version": "1.0.0~ALPHA-0812d"
+		}
+	]
+}
