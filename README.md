@@ -5,7 +5,7 @@ This mod requires the [latest steamodded alpha version](https://github.com/Steam
 
 # Current Progress
 Currently, 8 hands and 8 planets have been added.
-Future content releases will include batches of roughly 8 hands, in sets of 2 to 6 unique types.
+Any future content releases will include batches of roughly 8 hands, in sets of 2 to 6 unique types.
 
 # Added Hands
 ## Mingles
