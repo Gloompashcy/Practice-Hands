@@ -21,34 +21,6 @@ SMODS.Joker:take_ownership('j_four_fingers', { loc_txt = {
 	},
 }}, true)
 
---Atlases for Example cards
-SMODS.Atlas{ key = 'IMGExCardshc', path = 'ExampleCards_hc.png', px = 71, py = 95 }
-SMODS.Atlas{ key = 'IMGExCardslc', path = 'ExampleCards_lc.png', px = 71, py = 95 }
-SMODS.Atlas{ key = 'IMGExCardsUI', path = 'ExampleCards_lc.png', px = 1, py = 1 }
-
--- Cards for hand examples
-
-SMODS.Suit {
-	key = 'Example',
-	card_key = 'EX',
-	hidden = true,
-
-	hc_atlas = 'IMGExCardshc',
-	lc_atlas = 'IMGExCardslc',
-
-	hc_ui_atlas = 'IMGExCardsUI',
-	lc_ui_atlas = 'IMGExCardsUI',
-
-	pos = { y = 0 },
-	ui_pos = { x = 0, y = 0 },
-
-	hc_colour = HEX('000000'),
-	lc_colour = HEX('000000'),
-
-	in_pool = function(self, args)
-        return false end
-}
-
 --New hand part for mingle
 SMODS.PokerHandPart {
 	key = 'PRTMingle',
@@ -440,7 +412,7 @@ SMODS.PokerHand {
 	example = {
 		{ 'S_A', true },
 		{ 'D_A', true },
-		{ 'PracHands_EX_A', true },
+		{ 'H_A', true, enhancement = 'm_wild' },
 		{ 'C_A', true },
 		{ 'H_A', true },
 	},
@@ -460,11 +432,11 @@ SMODS.PokerHand {
 	l_mult = 0,
 	visible = false,
 	example = {
-		{ 'PracHands_EX_7', true },
-		{ 'PracHands_EX_7', true },
-		{ 'PracHands_EX_7', true },
-		{ 'PracHands_EX_7', true },
-		{ 'PracHands_EX_7', true },
+		{ 'D_7', true, enhancement = 'm_lucky' },
+		{ 'D_7', true, enhancement = 'm_lucky' },
+		{ 'D_7', true, enhancement = 'm_lucky' },
+		{ 'D_7', true, enhancement = 'm_lucky' },
+		{ 'D_7', true, enhancement = 'm_lucky' },
 	},
 	evaluate = function(parts, hand)
 		if next(parts.PracHands_PRTJackpot) and next(parts._5) and next(parts._flush) then
