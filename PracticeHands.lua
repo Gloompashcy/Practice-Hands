@@ -344,7 +344,7 @@ SMODS.PokerHand {
 		{ 'C_Q', true },
 		{ 'H_3', true },
 		{ 'D_9', true },
-		{ 'PracHands_EX_5', true },
+		{ 'D_5', true, enhancement = 'm_wild' },
 	},
 	evaluate = function(parts, hand)
 		if next(parts.PracHands_PRTMingle) then
@@ -361,7 +361,7 @@ SMODS.PokerHand {
 	l_mult = 4,
 	visible = false,
 	example = {
-		{ 'PracHands_EX_T', true },
+		{ 'C_T', true, enhancement = 'm_wild' },
 		{ 'H_9', true },
 		{ 'D_8', true },
 		{ 'S_7', true },
@@ -394,7 +394,7 @@ SMODS.PokerHand {
 		{ 'C_J', true },
 		{ 'H_5', true },
 		{ 'D_5', true },
-		{ 'PracHands_EX_5', true },
+		{ 'D_5', true, enhancement = 'm_wild' },
 	},
 	evaluate = function(parts, hand)
 		if next(parts._3) and #parts._2 >= 2 and next(parts.PracHands_PRTMingle) then
